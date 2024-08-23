@@ -1,0 +1,46 @@
+{
+  "reviews": [
+    {
+      "professor": "Dr. Alice Johnson",
+      "subject": "Computer Science",
+      "stars": 4,
+      "review": "Dr. Johnson explains complex concepts in a way that's easy to understand. Her lectures are well-structured, but the exams are quite challenging."
+    },
+    {
+      "professor": "Dr. Robert Smith",
+      "subject": "Mathematics",
+      "stars": 5,
+      "review": "Dr. Smith is an excellent professor! He makes math fun and engaging. The homework assignments are tough, but they really help with understanding the material."
+    },
+    {
+      "professor": "Dr. Emily Davis",
+      "subject": "Psychology",
+      "stars": 3,
+      "review": "Dr. Davis is knowledgeable but tends to go off-topic during lectures. The grading is fair, but participation is key to doing well in her class."
+    },
+    {
+      "professor": "Dr. Michael Brown",
+      "subject": "Physics",
+      "stars": 2,
+      "review": "Dr. Brown's lectures are hard to follow, and he doesn't seem very approachable. The lab sessions, however, are well-organized and helpful."
+    },
+    {
+      "professor": "Dr. Linda White",
+      "subject": "English Literature",
+      "stars": 5,
+      "review": "Dr. White is passionate about literature and it shows in her teaching. Her feedback on essays is thorough and constructive. Highly recommended!"
+    },
+    {
+      "professor": "Dr. James Wilson",
+      "subject": "History",
+      "stars": 4,
+      "review": "Dr. Wilson provides a lot of context to historical events, making his classes very interesting. His exams are fair but require a good grasp of the material."
+    },
+    {
+      "professor": "Dr. Karen Martinez",
+      "subject": "Chemistry",
+      "stars": 3,
+      "review": "Dr. Martinez knows her subject well, but her lectures can be a bit dry. Lab work is crucial in her class, so make sure to stay on top of it."
+    }
+  ]
+}

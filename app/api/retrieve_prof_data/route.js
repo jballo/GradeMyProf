@@ -48,12 +48,28 @@ async function scrapeProfessorUrl(professorUrl, maxRetries = 3) {
             // Navigate to the URL with a shorter timeout
             await page.goto(professorUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
             await page.waitForSelector('.NameTitle__Name-dowf0z-0.cfjPUG span');
+            await page.waitForSelector('#ratingsList');
 
             // Extract the relevant part of the page
             const data = await page.evaluate(() => {
                 const firstName = document.querySelector('.NameTitle__Name-dowf0z-0.cfjPUG span').innerText;
                 const rating = document.querySelector('.RatingValue__Numerator-qw8sqy-2.liyUjw').innerText;
-                return { firstName, rating };
+
+                const reviewElements = document.querySelectorAll('#ratingsList > li');
+                const reviews = [];
+                reviewElements.forEach(reviewElement => {
+                    const className = reviewElement.querySelector('.RatingHeader__StyledClass-sc-1dlkqw1-3')?.innerText.trim();
+                    const date = reviewElement.querySelector('.TimeStamp__StyledTimeStamp-sc-9q2r30-0')?.innerText.trim();
+                    const quality = reviewElement.querySelector('.CardNumRating__CardNumRatingNumber-sc-17t4b9u-2.bUneqk')?.innerText.trim();
+                    const difficulty = reviewElement.querySelector('.CardNumRating__CardNumRatingNumber-sc-17t4b9u-2.cDKJcc')?.innerText.trim();
+                    const comment = reviewElement.querySelector('.Comments__StyledComments-dzzyvm-0')?.innerText.trim();
+                    if (className && date && quality && difficulty && comment) {
+                        reviews.push({ className, date, quality, difficulty, comment });
+                    }
+                });
+
+                return { firstName, rating, reviews };
+
             });
             console.log(data);
 

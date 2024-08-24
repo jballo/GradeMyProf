@@ -1,5 +1,5 @@
 'use client';
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
 import { Lilita_One } from "next/font/google";
 
@@ -14,6 +14,10 @@ const lilita_one = Lilita_One({
 export default function Header(){
     const [ section, setSection ] = useState('home');
 
+    const handleChange = (event, newValue) => {
+        setSection(newValue);
+    };
+
     return(
         <Box
             display='flex'
@@ -21,20 +25,16 @@ export default function Header(){
             spacing={2}
             justifyContent='space-between'
             alignItems='center'
-            sx={{
-                // backgroundColor: '#80489C',
-                backgroundColor: '#432C7A',
-            }}
-            // my={2}
-            p={1}
-            px={4}
-            borderRadius={10}
+            
         >
             <Typography
-                variant='h4'
-                color='#FCE2DB'
+                variant='h1'
+                color='#432C7A'
                 sx={{
-                    fontFamily: lilita_one.style.fontFamily
+                    fontFamily: lilita_one.style.fontFamily,
+                    fontSize: '4rem',
+                    maxWidth: '200px'
+                    
                 }}
             >
                 GradeMyProf
@@ -45,6 +45,14 @@ export default function Header(){
                 justifyContent='center'
                 alignItems='center'
                 color='#FCE2DB'
+                sx={{
+                    // backgroundColor: '#80489C',
+                    backgroundColor: '#80489C',
+                }}
+                // my={2}
+                p={1.5}
+                px={4}
+                borderRadius={10}
             >
                 <Typography
                     onClick={() => setSection('home')}
@@ -61,14 +69,42 @@ export default function Header(){
             </Stack>
             <Stack
                 direction='row'
-                spacing={2}
+                spacing={1}
                 justifyContent='center'
                 alignItems='center'
+                sx={{
+                    // backgroundColor: '#80489C',
+                    backgroundColor: '#432C7A',
+                }}
+                // my={2}
+                p={1}
+                px={1}
+                borderRadius={10}
             >
-                <Button variant='contained'>
+                <Button variant='contained'
+                    sx={{
+                        // background: '#FF8FB1',
+                        background: '#80489C',
+                        '&:hover': {
+                            backgroundColor: '#9A1750',
+                            borderRadius: 10
+                        },
+                        borderRadius: 10,
+                    }}
+                >
                     Sign In
                 </Button>
-                <Button variant='contained'>
+                <Button variant='contained'
+                    sx={{
+                        // background: '#FF8FB1',
+                        background: '#80489C',
+                        '&:hover': {
+                            backgroundColor: '#9A1750',
+                            borderRadius: 8
+                        },
+                        borderRadius: 12,
+                    }}
+                >
                     Sign Up
                 </Button>
             </Stack>

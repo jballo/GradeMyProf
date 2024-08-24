@@ -14,7 +14,9 @@ export default function Home() {
     <Box
       width='100vw'
       height='100vh'
+      // bgcolor='#FCE2DB'
       bgcolor='#FCE2DB'
+
       px={8}
     >
       <Header />
@@ -52,6 +54,16 @@ export default function Home() {
                 Students, One <br/>
                 Review at a Time.
               </Typography>
+              <Typography
+                variant='body1'
+                color='#80489C'
+                sx={{
+                  fontFamily: 'sans-serif',
+                  maxWidth: '550px'
+                }}
+              >
+                GradeMyProf is a student-driven platform designed to empower academic decisions through detailed professor reviews and real-time insights. By allowing users to scrape and chat about Rate My Professor pages, we provide a personalized experience that helps students find the best professor for their needs.
+              </Typography>
               <Button
                 variant='contained'
                 sx={{
@@ -59,7 +71,13 @@ export default function Home() {
                   background: '#80489C',
                   '&:hover': {
                     backgroundColor: '#9A1750'
-                  }
+                  },
+                  borderRadius: 10,
+
+                }}
+                onClick={() => {
+                  // window.location.href = '/find';
+                  console.log('clicked');
                 }}
               >
                 Get Started

@@ -3,6 +3,7 @@ import { Typography, Box, Stack, Button, Container } from "@mui/material";
 import Image from "next/image";
 import Header from "./components/Header";
 import { Lilita_One } from "next/font/google";
+import { SignedOut, SignedIn } from "@clerk/nextjs";
 
 const lilita_one = Lilita_One({
   weight: '400',
@@ -65,30 +66,54 @@ export default function Home() {
               >
                 GradeMyProf is a student-driven platform designed to empower academic decisions through detailed professor reviews and real-time insights. By allowing users to scrape and chat about Rate My Professor pages, we provide a personalized experience that helps students find the best professor for their needs.
               </Typography>
-              <Button
-                variant='contained'
-                sx={{
-                  // background: '#FF8FB1',
-                  background: '#80489C',
-                  '&:hover': {
-                    backgroundColor: '#9A1750'
-                  },
-                  borderRadius: 10,
+              <SignedOut>
+                <Button
+                  variant='contained'
+                  sx={{
+                    // background: '#FF8FB1',
+                    background: '#80489C',
+                    '&:hover': {
+                      backgroundColor: '#9A1750'
+                    },
+                    borderRadius: 10,
 
-                }}
-                onClick={() => {
-                  // window.location.href = '/find';
-                  console.log('clicked');
-                }}
-              >
-                Get Started
-              </Button>
+                  }}
+                  href="/sign-in"
+                  onClick={() => {
+                    // window.location.href = '/find';
+                    console.log('clicked');
+                  }}
+                >
+                  Get Started
+                </Button>
+              </SignedOut>
+              <SignedIn>
+                <Button
+                  variant='contained'
+                  sx={{
+                    // background: '#FF8FB1',
+                    background: '#80489C',
+                    '&:hover': {
+                      backgroundColor: '#9A1750'
+                    },
+                    borderRadius: 10,
 
+                  }}
+                  href="/"
+                  onClick={() => {
+                    // window.location.href = '/find';
+                    console.log('clicked');
+                  }}
+                >
+                  Get Started
+                </Button>
+              </SignedIn>
             </Stack>
             <Image 
               src='/3d-casual-life-group-of-young-people-discussing-something-while-working.png'
               width={600}
               height={600}
+              alt="casual group of young people discussing something while working"
             />
           </Stack>
         </Box>

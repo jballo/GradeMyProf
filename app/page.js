@@ -1,3 +1,4 @@
+'use client';
 import { Typography, Box, Stack, Button, Container } from "@mui/material";
 import Image from "next/image";
 import Header from "./components/Header";

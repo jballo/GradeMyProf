@@ -32,6 +32,8 @@ async function scrapeProfessorUrl(professorUrl, maxRetries = 3) {
             const page = await browser.newPage();
             page.setDefaultNavigationTimeout(3 * 60 * 1000);
 
+            // Clear cache and disable image/media loading
+            await page.setCacheEnabled(false);
             await page.setRequestInterception(true);
             page.on('request', (req) => {
                 if (['image', 'stylesheet', 'font', 'media'].includes(req.resourceType())) {
@@ -43,13 +45,15 @@ async function scrapeProfessorUrl(professorUrl, maxRetries = 3) {
 
             await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36');
 
-            await page.goto(professorUrl, { waitUntil: 'domcontentloaded' });
+            // Navigate to the URL with a shorter timeout
+            await page.goto(professorUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
             await page.waitForSelector('.NameTitle__Name-dowf0z-0.cfjPUG span');
 
             // Extract the relevant part of the page
             const data = await page.evaluate(() => {
                 const firstName = document.querySelector('.NameTitle__Name-dowf0z-0.cfjPUG span').innerText;
-                return { firstName };
+                const rating = document.querySelector('.RatingValue__Numerator-qw8sqy-2.liyUjw').innerText;
+                return { firstName, rating };
             });
             console.log(data);
 
@@ -62,8 +66,8 @@ async function scrapeProfessorUrl(professorUrl, maxRetries = 3) {
                 return new NextResponse({ status: 500, statusText: 'Failed to scrape professor URL' });
             }
 
-            // Optional delay before retrying
-            await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+            // Increase delay between retries to allow recovery
+            await new Promise(resolve => setTimeout(resolve, 3000 * attempt));
         } finally {
             if (browser) {
                 try {

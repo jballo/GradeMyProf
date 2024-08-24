@@ -1,0 +1,71 @@
+'use client';
+
+import { useState } from "react";
+import { Box, Button, Stack, TextField } from "@mui/material";
+import Header from "../components/Header";
+
+
+
+
+export default function Page() {
+    const [url, setUrl] = useState('');
+
+    const handleUrlChange = (e) => {
+        setUrl(e.target.value);
+    }
+    const submitUrl = () => {
+        fetch('/api/retrieve_prof_data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                professorUrl: url
+            })
+        })
+        .then(res => {
+            if (res.ok) {
+                console.log('Success');
+                console.log(res.json());
+            } else {
+                console.log('Failed');
+            }
+        })
+    }
+
+    return (
+        <Box
+            width='100vw'
+            height='100vh'
+            bgcolor='#FCE2DB'
+        >
+            <Header />
+            <Stack
+                direction='row'
+                justifyContent='flex-end'
+            >
+                <TextField 
+                    label='Enter Url Here...'
+                    variant='standard'
+                    size='small'
+                    sx={{
+                        width: '30%',
+                        marginRight: '2rem'
+                    }}
+                    value={url}
+                    onChange={handleUrlChange}
+                />
+                <Button
+                    variant='contained'
+                    color='primary'
+                    sx={{
+                        height: '40px'
+                    }}
+                    onClick={submitUrl}
+                >
+                    Submit
+                </Button>
+            </Stack>
+        </Box>
+    );
+}

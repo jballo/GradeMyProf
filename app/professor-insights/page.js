@@ -23,13 +23,14 @@ export default function Page() {
                 professorUrl: url
             })
         })
-        .then(res => {
-            if (res.ok) {
-                console.log('Success');
-                console.log(res.json());
-            } else {
-                console.log('Failed');
-            }
+        .then(res => res.json())
+        .then(data => {
+            console.log('Success');
+            console.log(data);
+            
+        })
+        .catch(err => {
+            console.log('Error: ', err);
         })
     }
 

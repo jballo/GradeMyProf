@@ -73,13 +73,13 @@ async function scrapeProfessorUrl(professorUrl, maxRetries = 3) {
             });
             console.log(data);
 
-            return new NextResponse({ status: 200, body: JSON.stringify(data) });
+            return NextResponse.json(data);
         } catch (error) {
             attempt++;
             console.error(`Attempt ${attempt} failed:`, error);
 
             if (attempt >= maxRetries) {
-                return new NextResponse({ status: 500, statusText: 'Failed to scrape professor URL' });
+                return NextResponse.json({ error: 'Failed to scrape the professor URL' }, { status: 500 });
             }
 
             // Increase delay between retries to allow recovery

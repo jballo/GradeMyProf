@@ -2,6 +2,7 @@
 import { Box, Button, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
 import { Lilita_One } from "next/font/google";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 const lilita_one = Lilita_One({
   weight: '400',
@@ -27,18 +28,20 @@ export default function Header(){
             alignItems='center'
             
         >
-            <Typography
-                variant='h1'
-                color='#432C7A'
-                sx={{
-                    fontFamily: lilita_one.style.fontFamily,
-                    fontSize: '4rem',
-                    maxWidth: '200px'
-                    
-                }}
-            >
-                GradeMyProf
-            </Typography>
+            <Button color="inherit" href="/" sx={{textTransform: 'none'}}>
+                <Typography
+                    variant='h1'
+                    color='#432C7A'
+                    sx={{
+                        fontFamily: lilita_one.style.fontFamily,
+                        fontSize: '4rem',
+                        maxWidth: '200px'
+                        
+                    }}
+                >
+                    GradeMyProf
+                </Typography>
+            </Button>
             <Stack
                 direction='row'
                 spacing={2}
@@ -63,7 +66,7 @@ export default function Header(){
                     style={{cursor: 'pointer'}}
                 >About</Typography>
                 <Typography
-                    onClick={() => setSection('contact')}
+                    onClick={() => window.location.href = '/contact'}
                     style={{cursor: 'pointer'}}
                 >Contact</Typography>
             </Stack>
@@ -81,32 +84,39 @@ export default function Header(){
                 px={1}
                 borderRadius={10}
             >
-                <Button variant='contained'
-                    sx={{
-                        // background: '#FF8FB1',
-                        background: '#80489C',
-                        '&:hover': {
-                            backgroundColor: '#9A1750',
-                            borderRadius: 10
-                        },
-                        borderRadius: 10,
-                    }}
-                >
-                    Sign In
-                </Button>
-                <Button variant='contained'
-                    sx={{
-                        // background: '#FF8FB1',
-                        background: '#80489C',
-                        '&:hover': {
-                            backgroundColor: '#9A1750',
-                            borderRadius: 8
-                        },
-                        borderRadius: 12,
-                    }}
-                >
-                    Sign Up
-                </Button>
+                <SignedOut>
+                    <Button variant='contained'
+                        sx={{
+                            // background: '#FF8FB1',
+                            background: '#80489C',
+                            '&:hover': {
+                                backgroundColor: '#9A1750',
+                                borderRadius: 10
+                            },
+                            borderRadius: 10,
+                        }}
+                        href="/sign-in"
+                    >
+                        Sign In
+                    </Button>
+                    <Button variant='contained'
+                        sx={{
+                            // background: '#FF8FB1',
+                            background: '#80489C',
+                            '&:hover': {
+                                backgroundColor: '#9A1750',
+                                borderRadius: 8
+                            },
+                            borderRadius: 12,
+                        }}
+                        href="/sign-up"
+                    >
+                        Sign Up
+                    </Button>
+                </SignedOut>
+                <SignedIn>
+                    <UserButton />
+                </SignedIn>
             </Stack>
         </Box>
     );

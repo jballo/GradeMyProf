@@ -13,6 +13,25 @@ export default function Page() {
     const handleUrlChange = (e) => {
         setUrl(e.target.value);
     }
+
+    const processProfessorInfo = (data) => {
+        fetch('/api/process_prof_data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log('Success');
+            console.log(data);
+        })
+        .catch(err => {
+            console.log('Error: ', err);
+        })
+    }
+
     const submitUrl = () => {
         fetch('/api/retrieve_prof_data', {
             method: 'POST',
@@ -27,6 +46,8 @@ export default function Page() {
         .then(data => {
             console.log('Success');
             console.log(data);
+            // once data is successfully retrieved, send it to the process_prof_data route
+            processProfessorInfo(data);
             
         })
         .catch(err => {

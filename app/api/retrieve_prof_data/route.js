@@ -5,7 +5,7 @@ async function connectBrowser(maxRetries = 3) {
     let attempt = 0;
     while (attempt < maxRetries) {
         try {
-            const auth = process.env.BRIGHTBIRD_USERNAME + ':' + process.env.BRIGHTBIRD_PASSWORD;
+            const auth = process.env.BRIGHTDATA_USERNAME + ':' + process.env.BRIGHTDATA_PASSWORD;
             const browser = await puppeteer.connect({
                 browserWSEndpoint: `wss://${auth}@brd.superproxy.io:9222`,
                 headless: true,

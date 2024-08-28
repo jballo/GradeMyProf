@@ -1,59 +1,19 @@
 import { NextResponse } from "next/server";
 import { Pinecone } from "@pinecone-database/pinecone";
+import { OpenAIEmbeddings } from '@langchain/openai'
+import fetch from 'node-fetch';
+
 // import langchain from "langchain";
 
 const pc = new Pinecone({
     apiKey: process.env.PINECONE_API_KEY
 });
 
-
-// Response from .listIndexes():
-// {
-//    "indexes": [
-//       {
-//          "name": "example-index1",
-//          "dimension": 1536,
-//          "metric": "cosine",
-//          "host": "example-index1-4mkljsz.svc.aped-4627-b74a.pinecone.io",
-//          "deletionProtection": "disabled",
-//          "spec": {
-//             "serverless": {
-//                "cloud": "aws",
-//                "region": "us-east-1"
-//             }
-//          },
-//          "status": {
-//             "ready": true,
-//             "state": "Ready"
-//          }
-//       },
-//       {
-//          "name": "example-index2",
-//          "dimension": 1536,
-//          "metric": "cosine",
-//          "host": "example-index2-4mkljsz.svc.us-east-1-aws.pinecone.io",
-//          "spec": {
-//             "pod": {
-//                "environment": "us-east-1-aws",
-//                "replicas": 1,
-//                "shards": 1,
-//                "podType": "p1.x1",
-//                "pods": 1
-//             }
-//          },
-//          "status": {
-//             "ready": true,
-//             "state": "Ready"
-//          }
-//       }
-//    ]
-// }
-
 async function createIndex(){
     // create index
     await pc.createIndex({
         name: 'professor-index',
-        dimension: 1536, // change dimension in accordance with the model
+        dimension: 3072, // change dimension in accordance with the model
         metric: 'cosine',
         spec: {
             serverless: {
@@ -68,40 +28,70 @@ async function createIndex(){
 }
 
 async function updatedPinecone(data){
-    // log current state of functions
-    console.log('Starting update...');
-    // check if index exists
-    const indexes = (await pc.listIndexes()).indexes;
-    console.log(indexes);
-    // retrieve specific index
-    const index = indexes.filter((index) => index.name === process.env.PINECONE_INDEX_NAME);
-
-    console.log('index: ', index);
-    // check if index exists
-    if (index.length === 0){
-        // log current state of function
-        console.log('Index not found...');
-        // create index
-        await createIndex();
-        // log current state of function
-        console.log('Index created...');
-    } else {
-        // log current state of function
-        console.log('Index found...');
-    }
-    // check if namespace exists in our index
-    // log current state of function
-    // create namespace
-
-    // check if our professor exists in namespace in our index
-    // log current state of function
-    // create professor
+    try{
+        // log current state of functions
+        console.log('Starting update...');
+        // check if index exists
+        const indexes = (await pc.listIndexes()).indexes;
+        console.log(indexes);
+        // retrieve specific index
+        const index = indexes.filter((index) => index.name === process.env.PINECONE_INDEX_NAME);
     
-    // if professor exists, update professor
-    // log current state of function
-    // update professor
+        console.log('index: ', index);
+        // check if index exists
+        if (index.length === 0){
+            // log current state of function
+            console.log('Index not found...');
+            // create index
+            await createIndex();
+            // log current state of function
+            console.log('Index created...');
+        } else {
+            // log current state of function
+            console.log('Index found...');
+        }
+        
+        let processedData = [];
+        // process data
+        const embeddings = new OpenAIEmbeddings({
+            apiKey: process.env.OPENAI_API_KEY,
+            batchSize: 512, // Default value if omitted is 512. Max is 2048
+            model: 'text-embedding-3-large',
+            // fetch // Explicitly pass fetch to the constructor
+        });
+    
+        
+        processedData = await Promise.all(data.reviews.map(async (review) => ({
+            id: `${data.firstName}-${review.className}-${review.date}`,
+            values: await embeddings.embedQuery(`${data.firstName} | Rating: ${data.rating} | Class: ${review.className} | Date: ${review.date} | Quality: ${review.quality} | Difficulty: ${review.difficulty} | Review: ${review.comment}`),
+            metadata: {
+                firstName: data.firstName,
+                rating: data.rating,
+                className: review.className,
+                date: review.date,
+                quality: review.quality,
+                difficulty: review.difficulty,
+                comment: review.comment
+            }
+        })));
+    
+        // log processed data
+        console.log('Processed data: ', processedData);
+    
+        // log current state of function
+        console.log('Data processed...');
+        // upsert data
+        const indexToUpsert = await pc.index(process.env.PINECONE_INDEX_NAME);
+        const nameSpaceToUpsert = await indexToUpsert.namespace(process.env.PINECONE_NAMESPACE_NAME);
+        await nameSpaceToUpsert.upsert(processedData);
+        // await pc.index(process.env.PINECONE_INDEX_NAME).namespace(process.env.PINECONE_NAMESPACE_NAME).upsert(processedData);
+    
+        // log current state of function
+        console.log('Data upserted...');
 
-
+    } catch (error) {
+        console.error('Error in updatedPinecone: ', error);
+    }
 
 }
 

@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { Box, Button, Stack, TextField } from "@mui/material";
+import { Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
 import Header from "../components/Header";
+import Chat from "../components/Chat";
 
 
 
@@ -103,6 +104,14 @@ export default function Page() {
                     Submit
                 </Button>
             </Stack>
+            <Grid container spacing={2}>
+                    <Grid item sm={12} md={6} lg={6}>
+                        <Typography variant='h4'>Professor Data</Typography>
+                    </Grid>
+                    <Grid item sm={12} md={6} lg={6}>
+                        <Chat professorData={professorData}/>
+                    </Grid>
+            </Grid>
         </Box>
     );
 }

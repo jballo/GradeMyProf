@@ -99,7 +99,7 @@ export default function Home() {
                     borderRadius: 10,
 
                   }}
-                  href="/"
+                  href="/professor-insights"
                   onClick={() => {
                     // window.location.href = '/find';
                     console.log('clicked');

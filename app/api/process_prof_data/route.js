@@ -13,7 +13,7 @@ async function createIndex(){
     // create index
     await pc.createIndex({
         name: 'professor-index',
-        dimension: 3072, // change dimension in accordance with the model
+        dimension: 1536, // change dimension in accordance with the model
         metric: 'cosine',
         spec: {
             serverless: {
@@ -56,7 +56,7 @@ async function updatedPinecone(data){
         const embeddings = new OpenAIEmbeddings({
             apiKey: process.env.OPENAI_API_KEY,
             batchSize: 512, // Default value if omitted is 512. Max is 2048
-            model: 'text-embedding-3-large',
+            model: 'text-embedding-ada-002',
             // fetch // Explicitly pass fetch to the constructor
         });
     

@@ -1,95 +1,122 @@
+'use client';
+import { Typography, Box, Stack, Button, Container } from "@mui/material";
 import Image from "next/image";
-import styles from "./page.module.css";
+import Header from "./components/Header";
+import { Lilita_One } from "next/font/google";
+import { SignedOut, SignedIn } from "@clerk/nextjs";
+
+const lilita_one = Lilita_One({
+  weight: '400',
+  style: 'normal',
+  subsets: ['latin']
+})
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <Box
+      width='100vw'
+      height='100vh'
+      // bgcolor='#FCE2DB'
+      bgcolor='#FCE2DB'
+
+      px={8}
+    >
+      <Header />
+      <Box
+        width='100%'
+        display='flex'
+        justifyContent='center'
+        alignItems='center'
+        flexDirection='column'
+        my={8}
+        >
+          <Stack
+            width='100%'
+            direction='row'
+            spacing={2}
+            justifyContent='space-between'
+            mx={8}
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
+            <Stack
+              direction='column'
+              spacing={2}
+              justifyContent='center'
+              alignItems='flex-start'
+              gap={5}
+            >
+              <Typography
+                variant='h2'
+                // color='#432C7A' 
+                color='#FF8FB1'
+                sx={{
+                  fontFamily: lilita_one.style.fontFamily
+                }}
+              >
+                Empowering<br/>
+                Students, One <br/>
+                Review at a Time.
+              </Typography>
+              <Typography
+                variant='body1'
+                color='#80489C'
+                sx={{
+                  fontFamily: 'sans-serif',
+                  maxWidth: '550px'
+                }}
+              >
+                GradeMyProf is a student-driven platform designed to empower academic decisions through detailed professor reviews and real-time insights. By allowing users to scrape and chat about Rate My Professor pages, we provide a personalized experience that helps students find the best professor for their needs.
+              </Typography>
+              <SignedOut>
+                <Button
+                  variant='contained'
+                  sx={{
+                    // background: '#FF8FB1',
+                    background: '#80489C',
+                    '&:hover': {
+                      backgroundColor: '#9A1750'
+                    },
+                    borderRadius: 10,
+
+                  }}
+                  href="/sign-in"
+                  onClick={() => {
+                    // window.location.href = '/find';
+                    console.log('clicked');
+                  }}
+                >
+                  Get Started
+                </Button>
+              </SignedOut>
+              <SignedIn>
+                <Button
+                  variant='contained'
+                  sx={{
+                    // background: '#FF8FB1',
+                    background: '#80489C',
+                    '&:hover': {
+                      backgroundColor: '#9A1750'
+                    },
+                    borderRadius: 10,
+
+                  }}
+                  href="/professor-insights"
+                  onClick={() => {
+                    // window.location.href = '/find';
+                    console.log('clicked');
+                  }}
+                >
+                  Get Started
+                </Button>
+              </SignedIn>
+            </Stack>
+            <Image 
+              src='/3d-casual-life-group-of-young-people-discussing-something-while-working.png'
+              width={600}
+              height={600}
+              alt="casual group of young people discussing something while working"
             />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+          </Stack>
+        </Box>
+    </Box>
   );
 }
